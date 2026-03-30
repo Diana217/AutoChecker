@@ -45,7 +45,7 @@ public class AutoChecker
 
         var hardErrors = results.Where(x => x.Severity == ConstraintSeverity.Hard).ToList();
         var softErrors = results.Where(x => x.Severity == ConstraintSeverity.Soft).ToList();
-
+        // Console.WriteLine($"Total errors: {results.Count} (Hard: {hardErrors.Count}, Soft: {softErrors.Count})\n");
         if (hardErrors.Count > 0) 
         {
             Console.WriteLine("!!! HARD:");

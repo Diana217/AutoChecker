@@ -35,4 +35,23 @@ public class ScheduleItem
 
     [JsonIgnore]
     public TimeSpan EndTime => TimeSpan.Parse(EndTimeString);
+
+    [JsonPropertyName("latitude_to")]
+    public double? LatitudeTo { get; set; }
+    [JsonPropertyName("longitude_to")]
+    public double? LongitudeTo { get; set; }
+
+    [JsonPropertyName("latitude_name")]
+    public double? LatitudeName { get; set; }
+    [JsonPropertyName("longitude_name")]
+    public double? LongitudeName { get; set; }
+
+    [JsonPropertyName("route_duration")]
+    public TimeSpan? RouteDuration { get; set; }
+
+    [JsonPropertyName("route_distance")]
+    public double? RouteDistance { get; set; }
+
+    
+    public List<ValidationResult> ValidationResult { get; set; } = [];
 }

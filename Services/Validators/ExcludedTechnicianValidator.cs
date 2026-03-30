@@ -17,8 +17,13 @@ public class ExcludedTechnicianValidator : IValidator
                 return site.ExcludedTechnicians.Contains(x.TechnicianName);
             })
             .Select(x =>
-                ValidationResultFactory.Hard(
+            {
+                var error = ValidationResultFactory.Hard(
                     $"[Excluded] {x.TechnicianName} is not allowed at {x.LocationName}"
-                ))];
+                );
+                x.ValidationResult.Add(error);
+                return error;
+            })];
+                
     }
 }

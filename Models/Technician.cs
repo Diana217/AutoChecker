@@ -28,4 +28,6 @@ public class Technician
     public bool CertifiedLift { get; set; }
     public bool PesticideCertification { get; set; }
     public bool IsCitizen { get; set; }
+
+    public List<ValidationResult> ValidationResults { get; set; } = [];
 }

@@ -29,22 +29,25 @@ public class TechsNeededValidator : IValidator
 
                         if (actual == required)
                             return [];
-
+                        ValidationResult error;
                         if (actual < required)
                         {
-                            return
-                            [
-                                ValidationResultFactory.Hard(
+                            error = ValidationResultFactory.Hard(
                                     $"[Techs Needed] {site.Name} on {g.Key:yyyy-MM-dd} requires {required} techs, but has {actual}"
-                                )
+                                );
+                            site.ValidationResults.Add(error);
+                            return
+                            [                                
+                                error
                             ];
                         }
-
+                        error = ValidationResultFactory.Soft(
+                                $"[Techs Needed] {site.Name} on {g.Key:yyyy-MM-dd} has {actual} techs, more than required {required}"
+                            );
+                        site.ValidationResults.Add(error);
                         return new[]
                         {
-                            ValidationResultFactory.Soft(
-                                $"[Techs Needed] {site.Name} on {g.Key:yyyy-MM-dd} has {actual} techs, expected {required}"
-                            )
+                            error
                         };
                     });
 

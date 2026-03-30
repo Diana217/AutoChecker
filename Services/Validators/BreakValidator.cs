@@ -14,6 +14,7 @@ public class BreakValidator : IValidator
             {
                 var tech = context.Technicians[g.Key.TechnicianName];
                 var visits = g.OrderBy(x => x.StartTime).ToList();
+                ValidationResult error;
 
                 var errors = new List<ValidationResult>();
 
@@ -28,15 +29,19 @@ public class BreakValidator : IValidator
                         if (breakStart < tech.BreakNotEarlierThan ||
                             breakStart > tech.BreakNotLaterThan)
                         {
-                            errors.Add(ValidationResultFactory
-                                .Soft($"[Break Window] {g.Key.TechnicianName} has break outside allowed window"));
+                            error = ValidationResultFactory
+                                .Soft($"[Break Window] {g.Key.TechnicianName} has break outside allowed window");
+                            tech.ValidationResults.Add(error);
+                            errors.Add(error);
                         }
 
                         return errors;
                     }
                 }
+                error = ValidationResultFactory.Hard($"[Break Missing] {g.Key.TechnicianName} has no valid break");
+                tech.ValidationResults.Add(error);
 
-                errors.Add(ValidationResultFactory.Hard($"[Break Missing] {g.Key.TechnicianName} has no valid break"));
+                errors.Add(error);
 
                 return errors;
             })];

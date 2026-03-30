@@ -10,5 +10,8 @@
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="8.5.0" />
   </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
 </Project>

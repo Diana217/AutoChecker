@@ -23,8 +23,10 @@ public class OverlappingVisitsValidator : IValidator
 
                     if (curr.StartTime < prev.EndTime)
                     {
-                        errors.Add(ValidationResultFactory
-                            .Hard($"[Overlap] {curr.TechnicianName} has overlapping visits at {curr.StartTime}"));
+                        var error = ValidationResultFactory
+                            .Hard($"[Overlap] {curr.TechnicianName} has overlapping visits at {curr.StartTime}");
+                        curr.ValidationResult.Add(error);
+                        errors.Add(error);
                     }
                 }
 

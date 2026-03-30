@@ -14,7 +14,7 @@ public class PermitValidator : IValidator
             .SelectMany(x =>
             {
                 var site = context.ServiceSites[(x.LocationName, x.ActivityType)];
-
+                
                 if (!site.PermitRequired)
                     return [];
 
@@ -28,16 +28,17 @@ public class PermitValidator : IValidator
                     PermitDifficulty.Easy => ConstraintSeverity.Soft,
                     _ => ConstraintSeverity.Soft
                 };
-
-                return new[]
-                {
-                    severity == ConstraintSeverity.Hard
+                var error = severity == ConstraintSeverity.Hard
                         ? ValidationResultFactory.Hard(
                             $"[Permit] {x.TechnicianName} has no permit for {x.LocationName} (hard to obtain)"
                         )
                         : ValidationResultFactory.Soft(
                             $"[Permit] {x.TechnicianName} has no permit for {x.LocationName}"
-                        )
+                        );
+                x.ValidationResult.Add(error);
+                return new[]
+                {
+                    error
                 };
             })];
     }

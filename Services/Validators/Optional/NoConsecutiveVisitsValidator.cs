@@ -33,10 +33,12 @@ public class NoConsecutiveVisitsValidator : IValidator
                     var diff = (visits[i].Date - visits[i - 1].Date).TotalDays;
 
                     if (diff == 1)
-                    {
-                        results.Add(ValidationResultFactory.Soft(
+                    {   
+                        var error = ValidationResultFactory.Soft(
                             $"[Consecutive] {site.Name} has visits on consecutive days ({visits[i - 1].Date:yyyy-MM-dd}, {visits[i].Date:yyyy-MM-dd})"
-                        ));
+                        );
+                        site.ValidationResults.Add(error);
+                        results.Add(error);
                     }
                 }
 

@@ -55,16 +55,20 @@ public class SkillValidator : IValidator
 
                 if (hardReasons.Any())
                 {
-                    results.Add(ValidationResultFactory.Hard(
+                    var error = ValidationResultFactory.Hard(
                         $"[Skills] {x.TechnicianName} cannot work at {x.LocationName} ({string.Join(", ", hardReasons)})"
-                    ));
+                    );
+                    x.ValidationResult.Add(error);
+                    results.Add(error);
                 }
 
                 if (softReasons.Any())
                 {
-                    results.Add(ValidationResultFactory.Soft(
+                    var error = ValidationResultFactory.Soft(
                         $"[Skills] {x.TechnicianName} suboptimal for {x.LocationName} ({string.Join(", ", softReasons)})"
-                    ));
+                    );
+                    x.ValidationResult.Add(error);
+                    results.Add(error);
                 }
 
                 return results;

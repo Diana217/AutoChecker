@@ -25,8 +25,14 @@ public class WorkloadBalanceValidator : IValidator
 
         return [.. workloads
             .Where(x => x.Hours > avg * 1.5 || x.Hours < avg * 0.5)
-            .Select(x => ValidationResultFactory.Soft(
-                $"[Workload] {x.Tech} has uneven workload ({x.Hours:F1}h vs avg {avg:F1}h)"
-            ))];
+            .Select(x => {
+                var error = ValidationResultFactory.Soft(
+                    $"[Workload] {x.Tech} has uneven workload ({x.Hours:F1}h vs avg {avg:F1}h)"
+                );
+
+                context.Technicians[x.Tech].ValidationResults.Add(error);
+                return error;
+
+            })];
     }
 }

@@ -27,19 +27,21 @@ public class ServiceSkillLevelValidator : IValidator
 
                 if (techSkill == null)
                 {
+                    var error = ValidationResultFactory.Hard($"[Skill Missing] {x.TechnicianName} has no skill for {required.Type} at {x.LocationName}");
+                    x.ValidationResult.Add(error);
                     return
                     [
-                        ValidationResultFactory
-                            .Hard($"[Skill Missing] {x.TechnicianName} has no skill for {required.Type} at {x.LocationName}")
+                        error
                     ];
                 }
 
                 if (techSkill.Level < required.Level)
                 {
+                    var error = ValidationResultFactory.Soft($"[Skill Level] {x.TechnicianName} has {techSkill.Level}, requires {required.Level} for {required.Type} at {x.LocationName}");
+                    x.ValidationResult.Add(error);
                     return new[]
                     {
-                        ValidationResultFactory
-                            .Soft($"[Skill Level] {x.TechnicianName} has {techSkill.Level}, requires {required.Level} for {required.Type} at {x.LocationName}")
+                        error
                     };
                 }
 

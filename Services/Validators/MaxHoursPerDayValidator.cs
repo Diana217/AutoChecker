@@ -18,6 +18,10 @@ public class MaxHoursPerDayValidator : IValidator
                 var total = g.Sum(x => (x.EndTime - x.StartTime).TotalHours);
                 return total > tech.MaxHoursPerDay;
             })
-            .Select(g => ValidationResultFactory.Hard($"[Max Day Hours] {g.Key.TechnicianName} exceeds daily limit"))];
+            .Select(g => {
+                var error = ValidationResultFactory.Hard($"[Max Day Hours] {g.Key.TechnicianName} exceeds daily limit");
+                context.Technicians[g.Key.TechnicianName].ValidationResults.Add(error);
+                return error;
+            })];
     }
 }

@@ -20,7 +20,13 @@ public class TechnicianWorkingHoursValidator : IValidator
 
                 return x.StartTime < hours.From || x.EndTime > hours.To;
             })
-            .Select(x => ValidationResultFactory
-                .Hard($"[Tech Hours] {x.TechnicianName} works outside allowed hours at {x.StartTime}-{x.EndTime}"))];
+            .Select(x => {
+                var error = ValidationResultFactory
+                .Hard($"[Tech Hours] {x.TechnicianName} works outside allowed hours at {x.StartTime}-{x.EndTime}");
+                context.Technicians[x.TechnicianName].ValidationResults.Add(error);
+                x.ValidationResult.Add(error);
+
+                return error;
+            })];
     }
 }
