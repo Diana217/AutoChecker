@@ -43,9 +43,21 @@ public class AutoChecker
             .SelectMany(v => v.Validate(context))
             .ToList();
 
+        var allErrors = new List<ValidationResult>();
+
+        allErrors.AddRange(context.Technicians.Values.SelectMany(t => t.ValidationResults));
+
+        allErrors.AddRange(context.ServiceSites.Values.SelectMany(s => s.ValidationResults));
+
+        allErrors.AddRange(context.Visits.SelectMany(v => v.ValidationResults));
+        
+        allErrors = allErrors.Distinct().ToList();
+
+        results = allErrors;
+
         var hardErrors = results.Where(x => x.Severity == ConstraintSeverity.Hard).ToList();
         var softErrors = results.Where(x => x.Severity == ConstraintSeverity.Soft).ToList();
-        // Console.WriteLine($"Total errors: {results.Count} (Hard: {hardErrors.Count}, Soft: {softErrors.Count})\n");
+        Console.WriteLine($"Total errors: {results.Count} (Hard: {hardErrors.Count}, Soft: {softErrors.Count})\n");
         if (hardErrors.Count > 0) 
         {
             Console.WriteLine("!!! HARD:");

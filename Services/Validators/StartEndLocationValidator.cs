@@ -43,7 +43,7 @@ public class StartEndLocationValidator : IValidator
                         $"[Start Location] {tech.Name} must start from {tech.StartsFrom}, but starts at {first.LocationName}"
                     );
                     tech.ValidationResults.Add(error);
-                    first.ValidationResult.Add(error);
+                    first.ValidationResults.Add(error);
                     results.Add(error);
                 }
 
@@ -53,7 +53,7 @@ public class StartEndLocationValidator : IValidator
                         $"[End Location] {tech.Name} must finish at {tech.FinishesAt}, but ends at {last.LocationName}"
                     );
                     tech.ValidationResults.Add(error);
-                    last.ValidationResult.Add(error);
+                    last.ValidationResults.Add(error);
                     results.Add(error);
                 }
 

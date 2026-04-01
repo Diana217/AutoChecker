@@ -23,7 +23,7 @@ public class PreferredTechnicianValidator : IValidator
                 var error = ValidationResultFactory.Soft(
                         $"[Preferred] {x.TechnicianName} is not preferred for {x.LocationName}"
                     );
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
                 return new[]
                 {
                     error

@@ -21,7 +21,7 @@ public class ExcludedTechnicianValidator : IValidator
                 var error = ValidationResultFactory.Hard(
                     $"[Excluded] {x.TechnicianName} is not allowed at {x.LocationName}"
                 );
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
                 return error;
             })];
                 

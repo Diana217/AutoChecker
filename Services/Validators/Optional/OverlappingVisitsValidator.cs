@@ -25,7 +25,7 @@ public class OverlappingVisitsValidator : IValidator
                     {
                         var error = ValidationResultFactory
                             .Hard($"[Overlap] {curr.TechnicianName} has overlapping visits at {curr.StartTime}");
-                        curr.ValidationResult.Add(error);
+                        curr.ValidationResults.Add(error);
                         errors.Add(error);
                     }
                 }

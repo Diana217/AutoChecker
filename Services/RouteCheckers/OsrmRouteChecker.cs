@@ -45,21 +45,15 @@ public class OsrmRouteChecker : IRouteChecker
         var err = false;
         if (!visit.LatitudeName.HasValue || !visit.LongitudeName.HasValue)
         {
-            err = true;
-            /*var error = ValidationResultFactory.Soft(
-                $"[Missing Coordinates] No coordinates for start location: {visit.LocationName}");
-            visit.ValidationResult.Add(error);*/
-            Console.WriteLine($"[Missing Coordinates] No coordinates for start location: {visit.LocationName}");
+            err = true;            
+            // Console.WriteLine($"[Missing Coordinates] No coordinates for start location: {visit.LocationName}");
            
         }
 
         if (!visit.LatitudeTo.HasValue || !visit.LongitudeTo.HasValue)
         {
-            err = true;
-            /*var error = ValidationResultFactory.Soft(
-                $"[Missing Coordinates] No coordinates for destination: {visit.LocationTo}");
-            visit.ValidationResult.Add(error);*/
-            Console.WriteLine($"[Missing Coordinates] No coordinates for destination: {visit.LocationTo}");
+            err = true;            
+            // Console.WriteLine($"[Missing Coordinates] No coordinates for destination: {visit.LocationTo}");
             
         }
 
@@ -73,10 +67,7 @@ public class OsrmRouteChecker : IRouteChecker
         
         if (!route.HasValue)
         {
-            /*var error = ValidationResultFactory.Soft(
-                $"[Route Error] Could not calculate route from {visit.LocationName} to {visit.LocationTo}");
-            visit.ValidationResult.Add(error);*/
-            Console.WriteLine($"[Route Error] Could not calculate route from {visit.LocationName} to {visit.LocationTo}");
+            // Console.WriteLine($"[Route Error] Could not calculate route from {visit.LocationName} to {visit.LocationTo}");
             return;
         }
 
@@ -92,11 +83,20 @@ public class OsrmRouteChecker : IRouteChecker
             
             if (difference.TotalMinutes > 0)
             {
-                var error = ValidationResultFactory.Hard(
-                    $"[Commute Time] Route for {visit.TechnicianName} from {visit.LocationName} to {visit.LocationTo} takes {(visit.RouteDuration ?? TimeSpan.Zero).TotalMinutes:F0} min, " +
-                    $"but planned {plannedDuration.TotalMinutes:F0} min (exceeds by {difference.TotalMinutes:F0} min)");        
-                Console.WriteLine($"HARD:{error.Message}");
-                visit.ValidationResult.Add(error);
+                if (difference.TotalMinutes > 0.1 * (visit.RouteDuration ?? TimeSpan.Zero).TotalMinutes)
+                {
+                    var error = ValidationResultFactory.Hard(
+                        $"[Commute Time] Route for {visit.TechnicianName} from {visit.LocationName} to {visit.LocationTo} takes {(visit.RouteDuration ?? TimeSpan.Zero).TotalMinutes:F0} min, " +
+                        $"but planned {plannedDuration.TotalMinutes:F0} min (exceeds by {difference.TotalMinutes:F0} min)");
+                    visit.ValidationResults.Add(error);
+                }
+                else
+                {
+                    var error = ValidationResultFactory.Soft(
+                        $"[Commute Time Warning] Route for {visit.TechnicianName} from {visit.LocationName} to {visit.LocationTo} takes {(visit.RouteDuration ?? TimeSpan.Zero).TotalMinutes:F0} min, " +
+                        $"but planned {plannedDuration.TotalMinutes:F0} min (exceeds by {difference.TotalMinutes:F0} min (within 10%))");
+                    visit.ValidationResults.Add(error);
+                }
             }
         }
     }

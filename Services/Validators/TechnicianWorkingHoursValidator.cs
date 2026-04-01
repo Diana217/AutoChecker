@@ -24,7 +24,7 @@ public class TechnicianWorkingHoursValidator : IValidator
                 var error = ValidationResultFactory
                 .Hard($"[Tech Hours] {x.TechnicianName} works outside allowed hours at {x.StartTime}-{x.EndTime}");
                 context.Technicians[x.TechnicianName].ValidationResults.Add(error);
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
 
                 return error;
             })];

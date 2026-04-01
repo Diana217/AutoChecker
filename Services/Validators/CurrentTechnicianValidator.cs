@@ -27,7 +27,7 @@ public class CurrentTechnicianValidator : IValidator
 
                 context.Technicians[x.TechnicianName].ValidationResults.Add(error);
 
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
                 return new[]
                 {                    
                     error

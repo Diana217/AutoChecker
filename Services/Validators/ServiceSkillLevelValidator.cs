@@ -28,7 +28,7 @@ public class ServiceSkillLevelValidator : IValidator
                 if (techSkill == null)
                 {
                     var error = ValidationResultFactory.Hard($"[Skill Missing] {x.TechnicianName} has no skill for {required.Type} at {x.LocationName}");
-                    x.ValidationResult.Add(error);
+                    x.ValidationResults.Add(error);
                     return
                     [
                         error
@@ -38,7 +38,7 @@ public class ServiceSkillLevelValidator : IValidator
                 if (techSkill.Level < required.Level)
                 {
                     var error = ValidationResultFactory.Soft($"[Skill Level] {x.TechnicianName} has {techSkill.Level}, requires {required.Level} for {required.Type} at {x.LocationName}");
-                    x.ValidationResult.Add(error);
+                    x.ValidationResults.Add(error);
                     return new[]
                     {
                         error

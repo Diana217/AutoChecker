@@ -58,7 +58,7 @@ public class SkillValidator : IValidator
                     var error = ValidationResultFactory.Hard(
                         $"[Skills] {x.TechnicianName} cannot work at {x.LocationName} ({string.Join(", ", hardReasons)})"
                     );
-                    x.ValidationResult.Add(error);
+                    x.ValidationResults.Add(error);
                     results.Add(error);
                 }
 
@@ -67,7 +67,7 @@ public class SkillValidator : IValidator
                     var error = ValidationResultFactory.Soft(
                         $"[Skills] {x.TechnicianName} suboptimal for {x.LocationName} ({string.Join(", ", softReasons)})"
                     );
-                    x.ValidationResult.Add(error);
+                    x.ValidationResults.Add(error);
                     results.Add(error);
                 }
 

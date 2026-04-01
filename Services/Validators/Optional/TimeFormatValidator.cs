@@ -11,7 +11,7 @@ public class TimeFormatValidator : IValidator
             .Where(x => x.StartTime > x.EndTime)
             .Select(x => {
                 var error = ValidationResultFactory.Hard($"[Time Error] Invalid time range for {x.TechnicianName}");
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
                 return error;
             })];
     }

@@ -53,5 +53,5 @@ public class ScheduleItem
     public double? RouteDistance { get; set; }
 
     
-    public List<ValidationResult> ValidationResult { get; set; } = [];
+    public List<ValidationResult> ValidationResults { get; set; } = [];
 }

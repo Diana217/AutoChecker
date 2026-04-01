@@ -67,13 +67,17 @@ var app = builder.Build();
 
 
 
+
 app.UseCors("AllowFrontend");
 app.UseRouting();
 app.MapControllers();
 app.MapGet("/", () => "AutoChecker Backend API is running");
 
 
-if (args.Length > 0 && args[0] == "--test")
+var console = builder.Configuration.GetValue<bool>("ConsoleMode");
+
+
+if (console)
 {
     using var scope = app.Services.CreateScope();
     var geocodingService = scope.ServiceProvider.GetRequiredService<IGeocodingService>();
@@ -131,10 +135,12 @@ if (args.Length > 0 && args[0] == "--test")
     JsonWriter.SerializeVisits(context.Visits, outputJsonPathVisits);
     JsonWriter.SerializeTechnicians(context.Technicians, outputJsonPathTechnicians);
     JsonWriter.SerializeServiceSites(context.ServiceSites, outputJsonPathServiceSites);
-    return;
+}
+else{
+    app.Run();
 }
 
-app.Run();
+
 
 
 

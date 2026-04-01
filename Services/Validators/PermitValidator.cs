@@ -35,7 +35,7 @@ public class PermitValidator : IValidator
                         : ValidationResultFactory.Soft(
                             $"[Permit] {x.TechnicianName} has no permit for {x.LocationName}"
                         );
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
                 return new[]
                 {
                     error

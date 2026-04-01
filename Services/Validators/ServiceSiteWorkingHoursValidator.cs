@@ -23,7 +23,7 @@ public class ServiceSiteWorkingHoursValidator : IValidator
             .Select(x => {
                 var error = ValidationResultFactory
                 .Hard($"[Site Closed] {x.LocationName} ({x.ActivityType}) is closed at {x.StartTime}-{x.EndTime} for {x.TechnicianName}");
-                x.ValidationResult.Add(error);
+                x.ValidationResults.Add(error);
                 return error;
             })];
     }

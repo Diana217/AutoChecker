@@ -26,8 +26,7 @@ public class DurationValidator : IValidator
                 );
 
                 site.ValidationResults.Add(error);
-
-                x.ValidationResult.Add(error);
+                
                 return error;
             })];
     }
