@@ -19,6 +19,10 @@ public class MaxHoursPerWeekValidator : IValidator
                 var total = g.Sum(x => (x.EndTime - x.StartTime).TotalHours);
                 return total > tech.MaxHoursPerWeek;
             })
-            .Select(g => ValidationResultFactory.Hard($"[Max Week Hours] {g.Key.TechnicianName} exceeds weekly limit"))];
+            .Select(g => {
+                var error = ValidationResultFactory.Hard($"[Max Week Hours] {g.Key.TechnicianName} exceeds weekly limit");
+                context.Technicians[g.Key.TechnicianName].ValidationResults.Add(error);
+                return error;
+            })];
     }
 }

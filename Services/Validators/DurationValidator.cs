@@ -21,10 +21,13 @@ public class DurationValidator : IValidator
             .Select(x =>
             {
                 var site = context.ServiceSites[(x.LocationName, x.ActivityType)];
-
-                return ValidationResultFactory.Hard(
+                var error = ValidationResultFactory.Hard(
                     $"[Duration] {x.LocationName} requires {site.DurationMinutes} min, got {(x.EndTime - x.StartTime).TotalMinutes}"
                 );
+
+                site.ValidationResults.Add(error);
+                
+                return error;
             })];
     }
 }

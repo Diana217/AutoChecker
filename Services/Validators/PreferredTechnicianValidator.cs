@@ -20,12 +20,13 @@ public class PreferredTechnicianValidator : IValidator
 
                 if (site.PreferredTechnicians.Contains(x.TechnicianName))
                     return [];
-
+                var error = ValidationResultFactory.Soft(
+                        $"[Preferred] {x.TechnicianName} is not preferred for {x.LocationName}"
+                    );
+                x.ValidationResults.Add(error);
                 return new[]
                 {
-                    ValidationResultFactory.Soft(
-                        $"[Preferred] {x.TechnicianName} is not preferred for {x.LocationName}"
-                    )
+                    error
                 };
             })];
     }

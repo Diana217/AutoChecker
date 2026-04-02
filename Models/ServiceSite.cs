@@ -34,4 +34,6 @@ public class ServiceSite
 
     public List<string> PreferredTechnicians { get; set; } = [];
     public List<string> ExcludedTechnicians { get; set; } = [];
+
+    public List<ValidationResult> ValidationResults { get; set; } = [];
 }

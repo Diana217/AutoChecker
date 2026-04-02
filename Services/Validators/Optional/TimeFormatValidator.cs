@@ -9,6 +9,10 @@ public class TimeFormatValidator : IValidator
     {
         return [.. context.Visits
             .Where(x => x.StartTime > x.EndTime)
-            .Select(x => ValidationResultFactory.Hard($"[Time Error] Invalid time range for {x.TechnicianName}"))];
+            .Select(x => {
+                var error = ValidationResultFactory.Hard($"[Time Error] Invalid time range for {x.TechnicianName}");
+                x.ValidationResults.Add(error);
+                return error;
+            })];
     }
 }

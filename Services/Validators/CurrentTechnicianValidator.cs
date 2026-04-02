@@ -20,12 +20,17 @@ public class CurrentTechnicianValidator : IValidator
 
                 if (site.CurrentTechnician == x.TechnicianName)
                     return [];
+                
+                var error = ValidationResultFactory.Soft(
+                    $"[Current Tech] {x.TechnicianName} is not current technician for {x.LocationName}"
+                );
 
+                context.Technicians[x.TechnicianName].ValidationResults.Add(error);
+
+                x.ValidationResults.Add(error);
                 return new[]
-                {
-                    ValidationResultFactory.Soft(
-                        $"[Current Tech] {x.TechnicianName} is not current technician for {x.LocationName}"
-                    )
+                {                    
+                    error
                 };
             })];
     }

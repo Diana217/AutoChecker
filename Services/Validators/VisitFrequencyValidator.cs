@@ -24,11 +24,13 @@ public class VisitFrequencyValidator : IValidator
 
                 if (!visits.Any())
                 {
+                    var error = ValidationResultFactory.Hard(
+                            $"[Frequency] {site.Name} has no visits but requires {site.Frequency.Times} per {site.Frequency.DaysPeriod} days"
+                        );
+                    site.ValidationResults.Add(error);
                     return
                     [
-                        ValidationResultFactory.Hard(
-                            $"[Frequency] {site.Name} has no visits but requires {site.Frequency.Times} per {site.Frequency.DaysPeriod} days"
-                        )
+                        error
                     ];
                 }
 
@@ -49,10 +51,12 @@ public class VisitFrequencyValidator : IValidator
                         v.Date < windowEnd);
 
                     if (count != required)
-                    {
-                        errors.Add(ValidationResultFactory.Hard(
+                    {   
+                        var error = ValidationResultFactory.Hard(
                             $"[Frequency] {site.Name} requires {required} visits per {period} days, but got {count} between {windowStart:yyyy-MM-dd} and {windowEnd:yyyy-MM-dd}"
-                        ));
+                        );
+                        site.ValidationResults.Add(error);
+                        errors.Add(error);
                     }
                 }
 

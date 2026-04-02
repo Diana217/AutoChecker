@@ -39,16 +39,22 @@ public class StartEndLocationValidator : IValidator
 
                 if (!isValidStart)
                 {
-                    results.Add(ValidationResultFactory.Soft(
+                    var error = ValidationResultFactory.Soft(
                         $"[Start Location] {tech.Name} must start from {tech.StartsFrom}, but starts at {first.LocationName}"
-                    ));
+                    );
+                    tech.ValidationResults.Add(error);
+                    first.ValidationResults.Add(error);
+                    results.Add(error);
                 }
 
                 if (!isValidEnd)
                 {
-                    results.Add(ValidationResultFactory.Soft(
+                    var error = ValidationResultFactory.Soft(
                         $"[End Location] {tech.Name} must finish at {tech.FinishesAt}, but ends at {last.LocationName}"
-                    ));
+                    );
+                    tech.ValidationResults.Add(error);
+                    last.ValidationResults.Add(error);
+                    results.Add(error);
                 }
 
                 return results;
